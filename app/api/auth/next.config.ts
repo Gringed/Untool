@@ -22,6 +22,7 @@ export const authConfig = {
       },
     }),
   ],
+  secret: "LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx5mLg=",
   adapter: PrismaAdapter(prisma),
   callbacks: {
     session: async ({ session, token, user }) => {
