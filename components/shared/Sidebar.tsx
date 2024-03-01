@@ -39,7 +39,7 @@ const Sidebar = ({ session }: any) => {
               alt=""
               width={55}
               height={55}
-              src={`assets/images/${
+              src={`/assets/images/${
                 theme === "dark" ? "logo-dark.svg" : "logo-light.svg"
               }`}
             />
