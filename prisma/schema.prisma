@@ -58,7 +58,7 @@ model User {
   emailVerified Boolean?
   name          String
   image         String
-  username      String?       @unique
+  username      String?
   photo         String?
   firstName     String?
   lastName      String?
