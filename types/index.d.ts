@@ -1,6 +1,5 @@
 // ====== USER PARAMS
 declare type CreateUserParams = {
-  id: string;
   name: string;
   email: string;
   image: string;
