@@ -89,9 +89,8 @@ export async function updateCredits(userId: string, creditFee: number) {
     if (findUser) {
       const updatedUserCredits = await prisma.user.update({
         where: { id: userId },
-        data: {
-          creditBalance: creditFee,
-        },
+        data: { creditBalance: { increment: creditFee } },
+        select: { id: true, creditBalance: true },
       });
 
       if (!updatedUserCredits) throw new Error("User credits update failed");

@@ -4,6 +4,7 @@ import { authConfig } from "../../api/auth/next.config";
 import { redirect } from "next/navigation";
 import Sidebar from "@/components/shared/Sidebar";
 import MobileNav from "@/components/shared/MobileNav";
+import { Toaster } from "@/components/ui/toaster";
 
 const PlatformLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getServerSession(authConfig);
@@ -18,6 +19,7 @@ const PlatformLayout = async ({ children }: { children: React.ReactNode }) => {
       <div className="root-container">
         <div className="wrapper">{children}</div>
       </div>
+      <Toaster />
     </main>
   );
 };

@@ -78,7 +78,7 @@ model Image {
   secureURL          String
   width              Int?
   height             Int?
-  config             String[]
+  config             Json?
   transformationUrl  String?
   aspectRatio        String?
   color              String?
