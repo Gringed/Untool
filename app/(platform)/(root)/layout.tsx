@@ -16,7 +16,7 @@ const PlatformLayout = async ({ children }: { children: React.ReactNode }) => {
     <main className="root">
       <Sidebar session={session} />
       <MobileNav session={session} />
-      <div className="root-container">
+      <div className="root-container bg-background">
         <div className="wrapper">{children}</div>
       </div>
       <Toaster />

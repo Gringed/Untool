@@ -1,7 +1,7 @@
 import Document from "next/document";
 
 export interface IImage extends Document {
-  _id: string;
+  id: string;
   title: string;
   transformationType: string;
   publicId: string;

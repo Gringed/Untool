@@ -12,7 +12,7 @@ const populateUser = (query: any) =>
   query.populate({
     path: "author",
     model: prisma.user,
-    select: "id firstName lastName",
+    select: "_id firstName lastName",
   });
 
 // ADD IMAGE
@@ -117,7 +117,7 @@ export async function getAllImages({
       secure: true,
     });
 
-    let expression = "folder=imaginify";
+    let expression = "folder=untool";
 
     if (searchQuery) {
       expression += ` AND ${searchQuery}`;
@@ -129,25 +129,29 @@ export async function getAllImages({
 
     const resourceIds = resources.map((resource: any) => resource.public_id);
 
-    let query = {};
+    let query: any = {};
 
     if (searchQuery) {
       query = {
-        publicId: {
-          $in: resourceIds,
+        where: {
+          publicId: {
+            in: resourceIds,
+          },
         },
       };
     }
 
     const skipAmount = (Number(page) - 1) * limit;
 
-    const images = await populateUser(prisma.image.findMany(query))
-      .sort({ updatedAt: -1 })
-      .skip(skipAmount)
-      .limit(limit);
+    const images = await prisma.image.findMany({
+      ...query,
+      orderBy: { updatedAt: "desc" },
+      skip: skipAmount,
+      take: limit,
+    });
 
-    const totalImages = (await prisma.image.findMany(query)).length;
-    const savedImages = (await prisma.image.findMany()).length;
+    const totalImages = await prisma.image.count(query);
+    const savedImages = await prisma.image.count();
 
     return {
       data: JSON.parse(JSON.stringify(images)),

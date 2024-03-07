@@ -331,7 +331,8 @@ const TransformationForm = ({
               !form.getValues().title ||
               (type === "fill" && !form.getValues().aspectRatio) ||
               (type === "remove" && !form.getValues().prompt) ||
-              image === null
+              !image?.publicId ||
+              creditBalance <= 0
             }
             onClick={onTransformHandler}
           >
@@ -340,7 +341,7 @@ const TransformationForm = ({
           <Button
             type="submit"
             className="submit-button capitalize"
-            disabled={isSubmitting}
+            disabled={isSubmitting || creditBalance <= 0}
           >
             {isSubmitting ? "Submitting..." : "Save Image"}
           </Button>
