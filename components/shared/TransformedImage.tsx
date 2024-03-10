@@ -41,9 +41,9 @@ const TransformedImage = ({
             <Image
               src="/assets/icons/download.svg"
               alt="Download"
-              width={24}
-              height={24}
-              className="pb-[6px]"
+              width={34}
+              height={34}
+              className=""
             />
           </button>
         )}

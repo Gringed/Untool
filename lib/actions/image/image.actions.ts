@@ -83,9 +83,7 @@ export async function deleteImage(imageId: string) {
 // GET IMAGE
 export async function getImageById(imageId: string) {
   try {
-    const image = await populateUser(
-      prisma.image.findUnique({ where: { id: imageId } })
-    );
+    const image = await prisma.image.findUnique({ where: { id: imageId } });
 
     if (!image) throw new Error("Image not found");
 
@@ -172,12 +170,12 @@ export async function getUserImages({
   try {
     const skipAmount = (Number(page) - 1) * limit;
 
-    const images = await populateUser(
-      prisma.image.findMany({ where: { authorId: userId } })
-    )
-      .sort({ updatedAt: -1 })
-      .skip(skipAmount)
-      .limit(limit);
+    const images = await prisma.image.findMany({
+      where: { authorId: userId },
+      orderBy: { updatedAt: "desc" },
+      skip: skipAmount,
+      take: limit,
+    });
 
     const totalImages = (
       await prisma.image.findMany({ where: { authorId: userId } })
