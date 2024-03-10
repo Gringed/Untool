@@ -8,13 +8,6 @@ import { redirect } from "next/navigation";
 
 import { v2 as cloudinary } from "cloudinary";
 
-const populateUser = (query: any) =>
-  query.populate({
-    path: "author",
-    model: prisma.user,
-    select: "_id firstName lastName",
-  });
-
 // ADD IMAGE
 export async function addImage({ image, userId, path }: AddImageParams) {
   try {
