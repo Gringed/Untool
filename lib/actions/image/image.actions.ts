@@ -18,14 +18,11 @@ const populateUser = (query: any) =>
 // ADD IMAGE
 export async function addImage({ image, userId, path }: AddImageParams) {
   try {
-    console.log("userId:", userId);
     const author = await prisma.user.findUnique({
       where: {
         id: userId,
       },
     });
-
-    console.log(author);
     if (!author) {
       throw new Error("User not found");
     }
@@ -36,7 +33,6 @@ export async function addImage({ image, userId, path }: AddImageParams) {
         authorId: author.id,
       },
     });
-    console.log("newImage:", newImage);
     revalidatePath(path);
 
     return JSON.parse(JSON.stringify(newImage));

@@ -198,7 +198,6 @@ const TransformationForm = ({
     if (image && (type === "restore" || type === "removeBackground")) {
       setNewTransformation(transformationType.config);
     }
-    console.log(image);
   }, [image, transformationType.config, type]);
   useEffect(() => {
     setDomLoaded(true);

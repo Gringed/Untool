@@ -19,11 +19,9 @@ export const authConfig = {
       if (session.user) {
         session.user.id = user.id;
       }
-      console.log(session);
       return session;
     },
     redirect({ url, baseUrl }) {
-      console.log(url);
       return baseUrl;
     },
   },

@@ -20,7 +20,7 @@ import { Button } from "../ui/button";
 import { Search } from "./Search";
 import { IImage } from "@/interfaces";
 
-export const Collection = ({
+const Collection = ({
   hasSearch = false,
   images,
   totalPages = 1,
@@ -132,3 +132,5 @@ const Card = ({ image }: { image: IImage }) => {
     </li>
   );
 };
+
+export default Collection;
