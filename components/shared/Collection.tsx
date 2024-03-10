@@ -50,7 +50,7 @@ export const Collection = ({
   return (
     <>
       <div className="collection-heading">
-        <h2 className="h2-bold text-dark-600">Recent Edits</h2>
+        <h2 className="h2-bold text-primary">Recent Edits</h2>
         {hasSearch && <Search />}
       </div>
 
@@ -101,7 +101,7 @@ const Card = ({ image }: { image: IImage }) => {
       <Link
         href={`/transformations/${image.id}`}
         key={image.id}
-        className="collection-card"
+        className="flex flex-1 cursor-pointer flex-col  dark:shadow-gray-900 dark:hover:shadow-secondary rounded-xl border-t-4 border-primary hover:border-secondary bg-background shadow-xl hover:shadow-md  transition-all hover:shadow-secondary"
       >
         <CldImage
           src={image.publicId}
@@ -110,11 +110,11 @@ const Card = ({ image }: { image: IImage }) => {
           height={image.height}
           {...image.config}
           loading="lazy"
-          className="h-52 w-full rounded-[10px] object-cover"
+          className="h-52 w-full rounded-sm object-cover"
           sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 33vw"
         />
-        <div className="flex-between">
-          <p className="p-20-semibold mr-3 line-clamp-1 text-dark-600">
+        <div className="flex-between px-4 py-3">
+          <p className="p-16-semibold mr-3 line-clamp-1 text-primary">
             {image.title}
           </p>
           <Image
