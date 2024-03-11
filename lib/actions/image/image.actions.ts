@@ -35,10 +35,13 @@ export async function addImage({ image, userId, path }: AddImageParams) {
 }
 
 // UPDATE IMAGE
-export async function updateImage({ image, userId, path }: UpdateImageParams) {
+export async function updateImage(
+  { image, userId, path }: UpdateImageParams,
+  imageId: string
+) {
   try {
     const imageToUpdate = await prisma.image.findUnique({
-      where: { id: image._id },
+      where: { id: imageId },
     });
 
     if (!imageToUpdate || imageToUpdate.authorId !== userId) {
@@ -173,7 +176,6 @@ export async function getUserImages({
     const totalImages = (
       await prisma.image.findMany({ where: { authorId: userId } })
     ).length;
-
     return {
       data: JSON.parse(JSON.stringify(images)),
       totalPages: Math.ceil(totalImages / limit),

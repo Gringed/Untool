@@ -122,18 +122,23 @@ const TransformationForm = ({
 
       if (action === "Update") {
         try {
-          const updatedImage = await updateImage({
-            image: {
-              ...imageData,
-              _id: data?._id,
+          const updatedImage = await updateImage(
+            {
+              image: {
+                ...imageData,
+              },
+              userId,
+              path: `/transformations/${data.id}`,
             },
-            userId,
-            path: `/transformations/${data._id}`,
-          });
+            data?.id
+          );
 
           if (updatedImage) {
-            router.push(`/transformations/${updatedImage._id}`);
+            router.push(`/transformations/${updatedImage.id}`);
           }
+          startTransition(async () => {
+            await updateCredits(userId, creditFee);
+          });
         } catch (error) {
           console.log(error);
         }
@@ -147,6 +152,7 @@ const TransformationForm = ({
     value: string,
     onChangeField: (value: string) => void
   ) => {
+    setIsTransforming(true);
     const imageSize = aspectRatioOptions[value as AspectRatioKey];
 
     setImage((prevState: any) => ({
@@ -321,22 +327,24 @@ const TransformationForm = ({
         </div>
 
         <div className="flex flex-col gap-4">
-          <Button
-            type="button"
-            className="submit-button capitalize"
-            disabled={
-              isTransforming ||
-              newTransformation === null ||
-              !form.getValues().title ||
-              (type === "fill" && !form.getValues().aspectRatio) ||
-              (type === "remove" && !form.getValues().prompt) ||
-              !image?.publicId ||
-              creditBalance <= 0
-            }
-            onClick={onTransformHandler}
-          >
-            {isTransforming ? "Transforming..." : "Apply Transformation"}
-          </Button>
+          {action === "Add" && (
+            <Button
+              type="button"
+              className="submit-button capitalize"
+              disabled={
+                isTransforming ||
+                newTransformation === null ||
+                !form.getValues().title ||
+                (type === "fill" && !form.getValues().aspectRatio) ||
+                (type === "remove" && !form.getValues().prompt) ||
+                !image?.publicId ||
+                creditBalance <= 0
+              }
+              onClick={onTransformHandler}
+            >
+              {isTransforming ? "Transforming..." : "Apply Transformation"}
+            </Button>
+          )}
           <Button
             type="submit"
             className="submit-button capitalize"

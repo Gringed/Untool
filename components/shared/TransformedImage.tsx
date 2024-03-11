@@ -4,7 +4,7 @@ import { dataUrl, debounce, download, getImageSize } from "@/lib/utils";
 import { CldImage, getCldImageUrl } from "next-cloudinary";
 import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 
 const TransformedImage = ({
   image,
@@ -19,7 +19,7 @@ const TransformedImage = ({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-
+    console.log(image);
     download(
       getCldImageUrl({
         width: image?.width,

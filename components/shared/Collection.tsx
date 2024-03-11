@@ -74,7 +74,7 @@ const Collection = ({
               className="collection-btn"
               onClick={() => onPageChange("prev")}
             >
-              <PaginationPrevious className="hover:bg-transparent hover:text-white" />
+              <PaginationPrevious />
             </Button>
 
             <p className="flex-center p-16-medium w-fit flex-1">
@@ -82,11 +82,11 @@ const Collection = ({
             </p>
 
             <Button
-              className="button w-32 bg-purple-gradient bg-cover text-white"
+              className="button w-32 collection-btn"
               onClick={() => onPageChange("next")}
               disabled={Number(page) >= totalPages}
             >
-              <PaginationNext className="hover:bg-transparent hover:text-white" />
+              <PaginationNext />
             </Button>
           </PaginationContent>
         </Pagination>
