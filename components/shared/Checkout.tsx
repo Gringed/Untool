@@ -13,11 +13,13 @@ const Checkout = ({
   amount,
   credits,
   buyerId,
+  current,
 }: {
   plan: string;
   amount: number;
   credits: number;
   buyerId: string;
+  current: boolean;
 }) => {
   const { toast } = useToast();
 
@@ -47,7 +49,8 @@ const Checkout = ({
     }
   }, []);
 
-  const onCheckout = async () => {
+  const onCheckout = async (e: any) => {
+    e.preventDefault();
     const transaction = {
       plan,
       amount,
@@ -59,10 +62,15 @@ const Checkout = ({
   };
 
   return (
-    <form action={onCheckout} method="POST">
+    <form onSubmit={onCheckout}>
       <section>
-        <Button type="submit" role="link" className="w-full rounded-full ">
-          Buy Credit
+        <Button
+          type="submit"
+          role="link"
+          disabled={current}
+          className="w-full rounded-full "
+        >
+          Subscribe
         </Button>
       </section>
     </form>

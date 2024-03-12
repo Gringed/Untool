@@ -16,11 +16,12 @@ export async function checkoutCredits(transaction: CheckoutTransactionParams) {
     line_items: [
       {
         price_data: {
-          currency: "usd",
+          currency: "eur",
           unit_amount: amount,
           product_data: {
             name: transaction.plan,
           },
+          recurring: { interval: "month" },
         },
         quantity: 1,
       },
@@ -30,9 +31,9 @@ export async function checkoutCredits(transaction: CheckoutTransactionParams) {
       credits: transaction.credits,
       buyerId: transaction.buyerId,
     },
-    mode: "payment",
-    success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile`,
-    cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
+    mode: "subscription",
+    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/profile`,
+    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/credits`,
   });
 
   redirect(session.url!);

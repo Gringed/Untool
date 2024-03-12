@@ -207,6 +207,7 @@ const TransformationForm = ({
   }, [image, transformationType.config, type]);
   useEffect(() => {
     setDomLoaded(true);
+    console.log(creditBalance);
   }, []);
   return (
     <Form {...form}>
