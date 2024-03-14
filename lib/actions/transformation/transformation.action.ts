@@ -8,7 +8,9 @@ import prisma from "@/lib/prisma";
 import { updateCredits } from "../users/user.actions";
 
 export async function checkoutCredits(transaction: CheckoutTransactionParams) {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    typescript: true,
+  });
 
   const amount = Number(transaction.amount) * 100;
 
