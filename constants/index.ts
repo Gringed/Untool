@@ -42,10 +42,10 @@ export const plans = [
     name: "Free",
     icon: "/assets/icons/free-plan.svg",
     price: 0,
-    credits: 20,
+    credits: 10,
     inclusions: [
       {
-        label: "20 Free Credits",
+        label: "10 Free Credits",
         isIncluded: true,
       },
       {
@@ -92,10 +92,10 @@ export const plans = [
     name: "Premium Package",
     icon: "/assets/icons/premium_plan.svg",
     price: 40,
-    credits: 500,
+    credits: 700,
     inclusions: [
       {
-        label: "500 Credits",
+        label: "700 Credits",
         isIncluded: true,
       },
       {
@@ -186,3 +186,4 @@ export const defaultValues = {
 };
 
 export const creditFee = -1;
+export const aplanId = 456214;

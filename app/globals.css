@@ -409,19 +409,11 @@
   }
 
   .input-field {
-    @apply rounded-[16px] border-2 border-purple-200/20 shadow-sm shadow-purple-200/15 text-dark-600 disabled:opacity-100 p-16-semibold h-[50px] md:h-[54px] focus-visible:ring-offset-0 px-4 py-3 focus-visible:ring-transparent !important;
-  }
-
-  .select-field {
-    @apply w-full border-2 border-purple-200/20 shadow-sm shadow-purple-200/15 rounded-[16px] h-[50px] md:h-[54px] text-dark-600 p-16-semibold disabled:opacity-100 placeholder:text-dark-400/50 px-4 py-3 focus:ring-offset-0 focus-visible:ring-transparent focus:ring-transparent focus-visible:ring-0 focus-visible:outline-none !important;
+    @apply rounded-[16px] border-2 border-purple-200/20 shadow-sm shadow-purple-200/15 text-primary disabled:opacity-100 p-16-semibold h-[50px] md:h-[54px] focus-visible:ring-offset-0 px-4 py-3 focus-visible:ring-transparent !important;
   }
 
   .select-trigger {
     @apply flex items-center  gap-2 py-5 capitalize focus-visible:outline-none;
-  }
-
-  .select-item {
-    @apply py-3 cursor-pointer hover:bg-purple-100;
   }
 
   .IconButton {
@@ -482,10 +474,6 @@
 
   .collection-empty {
     @apply flex-center h-60 w-full rounded-[10px] border border-dark-400/10 bg-white/20;
-  }
-
-  .collection-btn {
-    @apply button w-32 bg-cover text-white;
   }
 
   /* MediaUploader Component */

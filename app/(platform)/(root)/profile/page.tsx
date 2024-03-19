@@ -7,20 +7,8 @@ import dynamic from "next/dynamic";
 import { getAuthSession } from "@/lib/auth";
 import { getAllImages, getUserImages } from "@/lib/actions/image/image.actions";
 import { getUserById } from "@/lib/actions/users/user.actions";
-const CollectionComp = dynamic(
-  () => import("../../../../components/shared/Collection"),
-  {
-    loading: () => (
-      <div className="absolute right-1/2 bottom-1/2 transform translate-x-1/2 translate-y-1/2">
-        <div className="p-4 bg-gradient-to-tr animate-spin from-secondary to-blue-500 via-purple-500 rounded-full">
-          <div className="bg-white rounded-full">
-            <div className="w-24 h-24 rounded-full"></div>
-          </div>
-        </div>
-      </div>
-    ),
-  }
-);
+import Collection from "@/components/shared/Collection";
+
 const Profile = async ({ searchParams }: SearchParamProps) => {
   const session = await getAuthSession();
   const page = Number(searchParams?.page) || 1;
@@ -65,13 +53,13 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
               height={50}
               className="size-9 md:size-12"
             />
-            <h2 className="h2-bold text-secondary">{images?.data.length}</h2>
+            <h2 className="h2-bold text-secondary">{images?.totalImages}</h2>
           </div>
         </div>
       </section>
 
       <section className="mt-8 md:mt-14">
-        <CollectionComp
+        <Collection
           images={images?.data}
           totalPages={images?.totalPages}
           page={page}

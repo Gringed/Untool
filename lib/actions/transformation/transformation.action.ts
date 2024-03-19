@@ -5,7 +5,7 @@ import Stripe from "stripe";
 import { handleError } from "../../utils";
 import prisma from "@/lib/prisma";
 
-import { updateCredits } from "../users/user.actions";
+import { updateCredits, updateUser } from "../users/user.actions";
 
 export async function checkoutCredits(transaction: CheckoutTransactionParams) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -23,7 +23,6 @@ export async function checkoutCredits(transaction: CheckoutTransactionParams) {
           product_data: {
             name: transaction.plan,
           },
-          recurring: { interval: "month" },
         },
         quantity: 1,
       },
@@ -33,7 +32,7 @@ export async function checkoutCredits(transaction: CheckoutTransactionParams) {
       credits: transaction.credits,
       buyerId: transaction.buyerId,
     },
-    mode: "subscription",
+    mode: "payment",
     success_url: `${process.env.NEXT_PUBLIC_APP_URL}/profile`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/credits`,
   });
@@ -42,18 +41,32 @@ export async function checkoutCredits(transaction: CheckoutTransactionParams) {
 }
 
 export async function createTransaction(transaction: CreateTransactionParams) {
+  const user = await prisma.user.findUnique({
+    where: { id: transaction.buyerId },
+    select: {
+      firstName: true,
+      lastName: true,
+      username: true,
+      photo: true,
+      planId: true,
+    },
+  });
   try {
-    // Create a new transaction with a buyerId
-    const newTransaction = await prisma.transaction.create({
-      data: {
-        ...transaction,
-        buyerId: transaction.buyerId,
-      },
-    });
+    if (user) {
+      const newTransaction = await prisma.transaction.create({
+        data: {
+          ...transaction,
+          buyerId: transaction.buyerId,
+        },
+      });
 
-    await updateCredits(transaction.buyerId, transaction.credits);
-
-    return JSON.parse(JSON.stringify(newTransaction));
+      await updateUser(transaction.buyerId, 2);
+      await updateCredits(transaction.buyerId, transaction.credits);
+      console.log(newTransaction);
+      return JSON.parse(JSON.stringify(newTransaction));
+    } else {
+      throw new Error("User not found");
+    }
   } catch (error) {
     handleError(error);
   }

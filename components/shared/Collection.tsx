@@ -19,6 +19,7 @@ import { Button } from "../ui/button";
 
 import { Search } from "./Search";
 import { IImage } from "@/interfaces";
+import { useState } from "react";
 
 const Collection = ({
   hasSearch = false,
@@ -33,17 +34,18 @@ const Collection = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   // PAGINATION HANDLER
   const onPageChange = (action: string) => {
     const pageValue = action === "next" ? Number(page) + 1 : Number(page) - 1;
 
     const newUrl = formUrlQuery({
-      searchParams: searchParams.toString(),
+      searchParams: searchParams?.toString(),
       key: "page",
       value: pageValue,
     });
 
+    setIsLoading(false);
     router.push(newUrl, { scroll: false });
   };
 
@@ -67,14 +69,24 @@ const Collection = ({
       )}
 
       {totalPages > 1 && (
-        <Pagination className="mt-10">
-          <PaginationContent className="flex w-full">
+        <Pagination className="mt-10 text-primary">
+          <PaginationContent className="flex w-full text-primary hover:text-primary">
             <Button
-              disabled={Number(page) <= 1}
-              className="collection-btn"
-              onClick={() => onPageChange("prev")}
+              disabled={Number(page) <= 1 || isLoading}
+              className="text-white hover:text-white"
+              onClick={() => {
+                setIsLoading(true);
+                onPageChange("prev");
+              }}
             >
-              <PaginationPrevious />
+              {isLoading ? (
+                <svg
+                  className="animate-spin h-5 w-5 mr-3 ..."
+                  viewBox="0 0 24 24"
+                ></svg>
+              ) : (
+                <PaginationPrevious />
+              )}
             </Button>
 
             <p className="flex-center p-16-medium w-fit flex-1">
@@ -82,11 +94,21 @@ const Collection = ({
             </p>
 
             <Button
-              className="button w-32 collection-btn"
-              onClick={() => onPageChange("next")}
+              className=" text-white hover:text-white"
+              onClick={() => {
+                setIsLoading(true);
+                onPageChange("next");
+              }}
               disabled={Number(page) >= totalPages}
             >
-              <PaginationNext />
+              {isLoading ? (
+                <svg
+                  className="animate-spin h-5 w-5 mr-3 ..."
+                  viewBox="0 0 24 24"
+                ></svg>
+              ) : (
+                <PaginationNext />
+              )}
             </Button>
           </PaginationContent>
         </Pagination>
@@ -110,7 +132,7 @@ const Card = ({ image }: { image: IImage }) => {
           height={image.height}
           {...image.config}
           loading="lazy"
-          className="h-52 w-full rounded-sm object-cover"
+          className="h-52 w-full rounded-t-xl object-cover"
           sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 33vw"
         />
         <div className="flex-between px-4 py-3">

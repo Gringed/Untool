@@ -11,10 +11,11 @@ declare type CreateUserParams = {
 };
 
 declare type UpdateUserParams = {
-  firstName: string;
-  lastName: string;
-  username: string;
-  photo: string;
+  firstName: string | null;
+  lastName: string | null;
+  username: string | null;
+  photo: string | null;
+  planId: number;
 };
 
 // ====== IMAGE PARAMS
@@ -60,12 +61,12 @@ declare type Transformations = {
   remove?: {
     prompt: string;
     removeShadow?: boolean;
-    multiple?: boolean;
+    multiple: boolean;
   };
   recolor?: {
     prompt?: string;
     to: string;
-    multiple?: boolean;
+    multiple: boolean;
   };
   removeBackground?: boolean;
 };
@@ -96,7 +97,7 @@ declare type TransformationTypeKey =
 
 // ====== URL QUERY PARAMS
 declare type FormUrlQueryParams = {
-  searchParams: string;
+  searchParams: any;
   key: string;
   value: string | number | null;
 };
@@ -124,6 +125,7 @@ declare type TransformationFormProps = {
   creditBalance: number;
   data?: IImage | null;
   config?: Transformations | null;
+  user: any;
 };
 
 declare type TransformedImageProps = {

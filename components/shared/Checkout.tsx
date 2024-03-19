@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 import { Button } from "../ui/button";
 import { checkoutCredits } from "@/lib/actions/transformation/transformation.action";
+import { aplanId } from "@/constants";
 
 const Checkout = ({
   plan,
@@ -19,7 +20,7 @@ const Checkout = ({
   amount: number;
   credits: number;
   buyerId: string;
-  current: boolean;
+  current: number;
 }) => {
   const { toast } = useToast();
 
@@ -67,10 +68,10 @@ const Checkout = ({
         <Button
           type="submit"
           role="link"
-          disabled={current}
+          disabled={current === aplanId}
           className="w-full rounded-full "
         >
-          Subscribe
+          {current === aplanId ? "You are admin" : "Grab it"}
         </Button>
       </section>
     </form>

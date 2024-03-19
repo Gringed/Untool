@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
+  aplanId,
   aspectRatioOptions,
   creditFee,
   defaultValues,
@@ -51,6 +52,7 @@ const TransformationForm = ({
   type,
   creditBalance,
   config = null,
+  user,
 }: TransformationFormProps) => {
   const transformationType = transformationTypes[type];
   const [image, setImage] = useState(data);
@@ -61,6 +63,7 @@ const TransformationForm = ({
   const [transformationConfig, setTransformationConfig] = useState(config);
   const [isPending, startTransition] = useTransition();
   const [domLoaded, setDomLoaded] = useState(false);
+  const [isMultiple, setIsMultiple] = useState(false);
   const router = useRouter();
   const initialValues =
     data && action === "Update"
@@ -136,9 +139,11 @@ const TransformationForm = ({
           if (updatedImage) {
             router.push(`/transformations/${updatedImage.id}`);
           }
-          startTransition(async () => {
-            await updateCredits(userId, creditFee);
-          });
+          if (user.planId !== aplanId) {
+            startTransition(async () => {
+              await updateCredits(userId, creditFee);
+            });
+          }
         } catch (error) {
           console.log(error);
         }
@@ -152,7 +157,9 @@ const TransformationForm = ({
     value: string,
     onChangeField: (value: string) => void
   ) => {
-    setIsTransforming(true);
+    if (action === "Update") {
+      setIsTransforming(true);
+    }
     const imageSize = aspectRatioOptions[value as AspectRatioKey];
 
     setImage((prevState: any) => ({
@@ -171,7 +178,9 @@ const TransformationForm = ({
     fieldName: string,
     value: string,
     type: string,
-    onChangeField: (value: string) => void
+    onChangeField: (value: string) => void,
+    multiple?: boolean,
+    removeShadow?: boolean
   ) => {
     debounce(() => {
       setNewTransformation((prevState: any) => ({
@@ -179,6 +188,8 @@ const TransformationForm = ({
         [type]: {
           ...prevState?.[type],
           [fieldName === "prompt" ? "prompt" : "to"]: value,
+          multiple,
+          removeShadow,
         },
       }));
     }, 1000)();
@@ -194,10 +205,11 @@ const TransformationForm = ({
     );
 
     setNewTransformation(null);
-
-    startTransition(async () => {
-      await updateCredits(userId, creditFee);
-    });
+    if (user?.planId !== aplanId) {
+      startTransition(async () => {
+        await updateCredits(userId, creditFee);
+      });
+    }
   };
 
   useEffect(() => {
@@ -207,8 +219,8 @@ const TransformationForm = ({
   }, [image, transformationType.config, type]);
   useEffect(() => {
     setDomLoaded(true);
-    console.log(creditBalance);
   }, []);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -236,12 +248,16 @@ const TransformationForm = ({
                 }
                 value={field.value}
               >
-                <SelectTrigger className="select-field">
+                <SelectTrigger className="w-full border-2 border-purple-200/20 shadow-sm shadow-purple-200/15 rounded-[16px] h-[50px] md:h-[54px] text-primary p-16-semibold disabled:opacity-100 placeholder:text-dark-400/50 px-4 py-3 focus:ring-offset-0 focus-visible:ring-transparent focus:ring-transparent focus-visible:ring-0 focus-visible:outline-none">
                   <SelectValue placeholder="Select size" />
                 </SelectTrigger>
                 <SelectContent>
                   {Object.keys(aspectRatioOptions).map((key) => (
-                    <SelectItem key={key} value={key} className="select-item">
+                    <SelectItem
+                      key={key}
+                      value={key}
+                      className="py-3 cursor-pointer text-primary focus:bg-secondary font-semibold focus:text-background"
+                    >
                       {aspectRatioOptions[key as AspectRatioKey].label}
                     </SelectItem>
                   ))}
@@ -261,18 +277,28 @@ const TransformationForm = ({
               }
               className="w-full"
               render={({ field }) => (
-                <Input
-                  value={field.value}
-                  className="input-field"
-                  onChange={(e) =>
-                    onInputChangeHandler(
-                      "prompt",
-                      e.target.value,
-                      type,
-                      field.onChange
-                    )
-                  }
-                />
+                <>
+                  <Input
+                    value={field.value}
+                    className="input-field"
+                    onChange={(e) =>
+                      onInputChangeHandler(
+                        "prompt",
+                        e.target.value,
+                        type,
+                        field.onChange,
+                        isMultiple,
+                        true
+                      )
+                    }
+                  />
+                  <Input
+                    value={field.value}
+                    type="checkbox"
+                    className="input-field"
+                    onChange={(e) => setIsMultiple(e.target.checked)}
+                  />
+                </>
               )}
             />
 

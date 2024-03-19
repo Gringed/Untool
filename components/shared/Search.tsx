@@ -16,7 +16,7 @@ export const Search = () => {
     const delayDebounceFn = setTimeout(() => {
       if (query) {
         const newUrl = formUrlQuery({
-          searchParams: searchParams.toString(),
+          searchParams: searchParams || "",
           key: "query",
           value: query,
         });
@@ -24,7 +24,7 @@ export const Search = () => {
         router.push(newUrl, { scroll: false });
       } else {
         const newUrl = removeKeysFromQuery({
-          searchParams: searchParams.toString(),
+          searchParams: searchParams?.toString() || "",
           keysToRemove: ["query"],
         });
 
@@ -35,18 +35,45 @@ export const Search = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [router, searchParams, query]);
 
+  const verifierCaracteres = (event: any): boolean => {
+    const interdit =
+      "àâäãçéèêëìîïòôöõùûüñ &*?!:;,\t#~\"^¨%$£?²¤§%*()]{}<>=|\\/`'";
+    const touche = event.key;
+
+    if (interdit.includes(touche)) {
+      event.preventDefault(); // Empêche le caractère d'être saisi
+      return false;
+    }
+
+    return true; // Autorise la saisie du caractère
+  };
+
   return (
-    <div className="flex w-full rounded-[16px] border-2 border-purple-200/20 bg-transparent px-4 shadow-sm shadow-purple-200/15 md:max-w-96">
+    <div className="flex w-full relative items-center justify-end flex-1">
       <Image
         src="/assets/icons/search.svg"
+        className="absolute right-[10px]"
         alt="search"
         width={24}
         height={24}
       />
 
       <Input
-        className="border-0 bg-background text-primary w-full placeholder:text-primary h-[50px] p-16-medium focus-visible:ring-offset-0 p-3 focus-visible:ring-transparent !important"
+        className=" rounded-[16px] flex  border-2 border-purple-200/20  px-4 shadow-sm shadow-purple-200/15 md:max-w-96  bg-background text-primary w-full placeholder:text-primary h-[50px] p-16-medium  p-3"
         placeholder="Search"
+        id="mon_input"
+        onDrop={(e) => {
+          e.preventDefault();
+          return false;
+        }}
+        onPaste={(e) => {
+          e.preventDefault();
+          alert("Le collage de texte n'est pas autorisé !");
+          return false;
+        }}
+        onKeyDown={(e) => {
+          return verifierCaracteres(e);
+        }}
         onChange={(e) => setQuery(e.target.value)}
       />
     </div>
