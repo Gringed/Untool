@@ -35,7 +35,7 @@ const MobileNav = ({ session }: any) => {
             alt=""
             width={45}
             height={45}
-            src={`assets/images/${
+            src={`/assets/images/${
               theme === "dark" ? "logo-dark.svg" : "logo-light.svg"
             }`}
           />
@@ -68,7 +68,7 @@ const MobileNav = ({ session }: any) => {
               className="cursor-pointer"
             />
           </SheetTrigger>
-          <SheetContent className="sheet-content sm:w-72">
+          <SheetContent className="sheet-content sm:w-72 overflow-y-scroll">
             <>
               <div
                 className={cn(
@@ -80,7 +80,7 @@ const MobileNav = ({ session }: any) => {
                   alt=""
                   width={55}
                   height={55}
-                  src={`assets/images/${
+                  src={`/assets/images/${
                     theme === "dark" ? "logo-dark.svg" : "logo-light.svg"
                   }`}
                 />
