@@ -120,21 +120,21 @@ export const transformationTypes = {
     title: "Restore Image",
     subTitle: "Refine images by removing noise and imperfections",
     config: { restore: true },
-    icon: "image.svg",
+    icon: "413687/paint.svg",
   },
   removeBackground: {
     type: "removeBackground",
     title: "Background Remove",
     subTitle: "Removes the background of the image using AI",
     config: { removeBackground: true },
-    icon: "camera.svg",
+    icon: "413664/erase.svg",
   },
   fill: {
     type: "fill",
     title: "Generative Fill",
     subTitle: "Enhance an image's dimensions using AI outpainting",
     config: { fillBackground: true },
-    icon: "stars.svg",
+    icon: "413666/fill.svg",
   },
   remove: {
     type: "remove",
@@ -143,7 +143,7 @@ export const transformationTypes = {
     config: {
       remove: { prompt: "", removeShadow: true, multiple: true },
     },
-    icon: "scan.svg",
+    icon: "413743/watch.svg",
   },
   recolor: {
     type: "recolor",
@@ -152,7 +152,7 @@ export const transformationTypes = {
     config: {
       recolor: { prompt: "", to: "", multiple: true },
     },
-    icon: "filter.svg",
+    icon: "413653/create.svg",
   },
 };
 

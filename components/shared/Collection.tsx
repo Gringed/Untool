@@ -140,7 +140,7 @@ const Card = ({ image }: { image: IImage }) => {
             {image.title}
           </p>
           <Image
-            src={`/assets/icons/${
+            src={`https://www.svgrepo.com/show/${
               transformationTypes[
                 image.transformationType as TransformationTypeKey
               ].icon

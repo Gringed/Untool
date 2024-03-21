@@ -43,7 +43,9 @@ import { Checkbox } from "../ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import Link from "next/link";
 export const formSchema = z.object({
-  title: z.string(),
+  title: z.string().min(5, {
+    message: "Title must be at least 5 characters",
+  }),
   aspectRatio: z.string().optional(),
   color: z.string().optional(),
   prompt: z.string().optional(),
@@ -453,7 +455,9 @@ const TransformationForm = ({
           <Button
             type="submit"
             className="submit-button capitalize"
-            disabled={isSubmitting || creditBalance <= 0}
+            disabled={
+              isSubmitting || creditBalance <= 0 || newTransformation === null
+            }
           >
             {isSubmitting ? "Submitting..." : "Save Image"}
           </Button>
