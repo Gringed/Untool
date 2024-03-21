@@ -8,6 +8,15 @@ import Image from "next/image";
 import { getAllImages } from "@/lib/actions/image/image.actions";
 import dynamic from "next/dynamic";
 import Collection from "@/components/shared/Collection";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const Home = async ({ searchParams }: SearchParamProps) => {
   const session = await getAuthSession();
@@ -19,29 +28,45 @@ const Home = async ({ searchParams }: SearchParamProps) => {
   const images = await getAllImages({ page, searchQuery });
   return (
     <>
-      <section className="sm:flex-center hidden h-72 flex-col gap-4 rounded-[20px] border bg-banner bg-cover bg-no-repeat p-10 shadow-inner;">
-        <h1 className="h1-semibold max-w-[700px] flex-wrap text-center p-5 text-primary-foreground shadow-sm rounded-lg">
+      <section className="flex-center h-72 flex-col gap-4 rounded-[20px] border bg-banner bg-cover bg-no-repeat p-10 shadow-inner;">
+        <h1 className="h1-semibold max-w-[700px] flex-wrap text-center p-5 text-primary shadow-sm rounded-lg">
           Unleash Your Creative Vision with Untool
         </h1>
       </section>
-      <ul className="flex -mt-10 px-3 flex-center w-full gap-5">
-        {navLinks.slice(1, 6).map((link) => (
-          <Link
-            key={link.route}
-            href={link.route}
-            className="flex-center flex w-full dark:shadow-gray-600 shadow-lg hover:-mt-4 pt-[2px] dark:hover:shadow-secondary hover:shadow-secondary bg-gradient-to-b from-secondary to-60% to-transparent transition-all rounded-xl flex-col"
-          >
-            <li className="flex-center w-full bg-background rounded-t-xl p-4">
-              <Image src={link.icon} alt="image" width={24} height={24} />
-            </li>
-            <p className="font-bold text-xs py-4 text-center text-primary">
-              {link.label}
-            </p>
-          </Link>
-        ))}
-      </ul>
+      <Carousel className=" -mt-4 sm:-mt-12 flex mx-4 justify-center">
+        <CarouselContent className="flex ">
+          {navLinks.slice(1, 6).map((link) => (
+            <CarouselItem
+              key={link.route}
+              className="w-full justify-center flex sm:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+            >
+              <Card className="hover:bg-transparent transition-all bg-background">
+                <Link
+                  key={link.route}
+                  href={link.route}
+                  className="h-full flex"
+                >
+                  <CardContent className="flex justify-between py-2 flex-col items-center">
+                    <Image
+                      src={link.icon}
+                      className="bg-background rounded-full p-1"
+                      alt="image"
+                      width={30}
+                      height={30}
+                    />
+                    <Separator className="my-2 border-secondary border-2 rounded-full" />
+                    <p className="font-bold text-sm py-2 px-4 text-wrap text-center text-primary">
+                      {link.label}
+                    </p>
+                  </CardContent>
+                </Link>
+              </Card>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
 
-      <section className="sm:mt-12">
+      <section className="mt-12">
         <Collection
           hasSearch={true}
           images={images?.data}
