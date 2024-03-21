@@ -62,7 +62,8 @@ model User {
   photo         String?
   firstName     String?
   lastName      String?
-  planId        Int           @default(1)
+  planId        Int
+  plan          String        @default("Free")
   creditBalance Int           @default(10)
   accounts      Account[]
   sessions      Session[]

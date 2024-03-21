@@ -38,12 +38,18 @@ import {
   SelectValue,
 } from "../ui/select";
 import { InsufficientCreditsModal } from "./InsufficientCreditsModal";
+import { useToast } from "../ui/use-toast";
+import { Checkbox } from "../ui/checkbox";
+import { CheckedState } from "@radix-ui/react-checkbox";
+import Link from "next/link";
 export const formSchema = z.object({
   title: z.string(),
   aspectRatio: z.string().optional(),
   color: z.string().optional(),
   prompt: z.string().optional(),
   publicId: z.string().optional(),
+  multiple: z.boolean().optional(),
+  shadows: z.boolean().optional(),
 });
 const TransformationForm = ({
   action,
@@ -63,8 +69,12 @@ const TransformationForm = ({
   const [transformationConfig, setTransformationConfig] = useState(config);
   const [isPending, startTransition] = useTransition();
   const [domLoaded, setDomLoaded] = useState(false);
-  const [isMultiple, setIsMultiple] = useState(false);
+  const [isMultiple, setIsMultiple] = useState<boolean | CheckedState>(false);
+  const [isRemoveshadows, setIsRemoveShadows] = useState<
+    boolean | CheckedState
+  >(false);
   const router = useRouter();
+  const { toast } = useToast();
   const initialValues =
     data && action === "Update"
       ? {
@@ -139,9 +149,15 @@ const TransformationForm = ({
           if (updatedImage) {
             router.push(`/transformations/${updatedImage.id}`);
           }
-          if (user.planId !== aplanId) {
+          if (user.planId !== aplanId && type === "fill") {
             startTransition(async () => {
               await updateCredits(userId, creditFee);
+            });
+            toast({
+              title: "Image uploaded successfully",
+              description: "1 credit was deducted from your account",
+              duration: 5000,
+              className: "success-toast",
             });
           }
         } catch (error) {
@@ -179,8 +195,8 @@ const TransformationForm = ({
     value: string,
     type: string,
     onChangeField: (value: string) => void,
-    multiple?: boolean,
-    removeShadow?: boolean
+    multiple?: boolean | CheckedState,
+    removeShadow?: boolean | CheckedState
   ) => {
     debounce(() => {
       setNewTransformation((prevState: any) => ({
@@ -209,6 +225,12 @@ const TransformationForm = ({
       startTransition(async () => {
         await updateCredits(userId, creditFee);
       });
+      toast({
+        title: "Image uploaded successfully",
+        description: "1 credit was deducted from your account",
+        duration: 5000,
+        className: "success-toast",
+      });
     }
   };
 
@@ -216,6 +238,7 @@ const TransformationForm = ({
     if (image && (type === "restore" || type === "removeBackground")) {
       setNewTransformation(transformationType.config);
     }
+    console.log(image);
   }, [image, transformationType.config, type]);
   useEffect(() => {
     setDomLoaded(true);
@@ -248,7 +271,7 @@ const TransformationForm = ({
                 }
                 value={field.value}
               >
-                <SelectTrigger className="w-full border-2 border-purple-200/20 shadow-sm shadow-purple-200/15 rounded-[16px] h-[50px] md:h-[54px] text-primary p-16-semibold disabled:opacity-100 placeholder:text-dark-400/50 px-4 py-3 focus:ring-offset-0 focus-visible:ring-transparent focus:ring-transparent focus-visible:ring-0 focus-visible:outline-none">
+                <SelectTrigger className="space-x-3 space-y-0 rounded-md border p-4 shadow text-primary disabled:opacity-100 p-16-semibold h-[50px] md:h-[54px] focus-visible:ring-offset-0 px-4 py-3 focus-visible:ring-transparent">
                   <SelectValue placeholder="Select size" />
                 </SelectTrigger>
                 <SelectContent>
@@ -268,64 +291,119 @@ const TransformationForm = ({
         )}
 
         {(type === "remove" || type === "recolor") && (
-          <div className="prompt-field">
-            <CustomField
-              control={form.control}
-              name="prompt"
-              formLabel={
-                type === "remove" ? "Object to remove" : "Object to recolor"
-              }
-              className="w-full"
-              render={({ field }) => (
-                <>
-                  <Input
-                    value={field.value}
-                    className="input-field"
-                    onChange={(e) =>
-                      onInputChangeHandler(
-                        "prompt",
-                        e.target.value,
-                        type,
-                        field.onChange,
-                        isMultiple,
-                        true
-                      )
-                    }
-                  />
-                  <Input
-                    value={field.value}
-                    type="checkbox"
-                    className="input-field"
-                    onChange={(e) => setIsMultiple(e.target.checked)}
-                  />
-                </>
-              )}
-            />
-
-            {type === "recolor" && (
+          <>
+            <div className="prompt-field">
               <CustomField
                 control={form.control}
-                name="color"
-                formLabel="Replacement Color"
+                name="prompt"
+                formLabel={
+                  type === "remove" ? "Object to remove" : "Object to recolor"
+                }
                 className="w-full"
                 render={({ field }) => (
-                  <Input
-                    value={field.value}
-                    className="input-field"
-                    onChange={(e) =>
-                      onInputChangeHandler(
-                        "color",
-                        e.target.value,
-                        "recolor",
-                        field.onChange
-                      )
-                    }
-                  />
+                  <>
+                    <Input
+                      value={field.value}
+                      className="input-field"
+                      onChange={(e) =>
+                        onInputChangeHandler(
+                          "prompt",
+                          e.target.value,
+                          type,
+                          field.onChange,
+                          isMultiple,
+                          isRemoveshadows
+                        )
+                      }
+                    />
+                  </>
                 )}
               />
-            )}
-          </div>
+
+              {type === "recolor" && (
+                <CustomField
+                  control={form.control}
+                  name="color"
+                  formLabel="Replacement Color"
+                  className="w-full"
+                  render={({ field }) => (
+                    <FormControl>
+                      <Input
+                        value={field.value}
+                        className="space-x-3 space-y-0 rounded-md border p-4 shadow text-primary disabled:opacity-100 p-16-semibold h-[50px] md:h-[54px] focus-visible:ring-offset-0 px-4 py-3 focus-visible:ring-transparent"
+                        onChange={(e) =>
+                          onInputChangeHandler(
+                            "color",
+                            e.target.value,
+                            "recolor",
+                            field.onChange,
+                            isMultiple
+                          )
+                        }
+                      />
+                    </FormControl>
+                  )}
+                />
+              )}
+            </div>
+            <div className="prompt-field">
+              <CustomField
+                control={form.control}
+                name="multiple"
+                formLabel="Multiple items"
+                className="w-full"
+                render={() => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+                    <FormControl>
+                      <Checkbox
+                        checked={isMultiple}
+                        onCheckedChange={(cheked) => setIsMultiple(cheked)}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Detect multiple items</FormLabel>
+                      <FormDescription>
+                        Use it if you want to detect multiple items
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              {type === "remove" && (
+                <CustomField
+                  control={form.control}
+                  name="shadows"
+                  formLabel="Remove shadows"
+                  className="w-full"
+                  render={() => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+                      <FormControl>
+                        <Checkbox
+                          checked={isRemoveshadows}
+                          onCheckedChange={(checked) =>
+                            setIsRemoveShadows(checked)
+                          }
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>Remove shadows</FormLabel>
+                        <FormDescription>
+                          Use it if you want to remove shadows of objects
+                        </FormDescription>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              )}
+            </div>
+          </>
         )}
+        <div className="flex">
+          <p className="italic font-semibold text-primary/30 text-xs">
+            Note: The underlying AI technology behind these features is still
+            experimental, the quality of results may vary.
+          </p>
+        </div>
 
         <div className="media-uploader-field">
           <CustomField

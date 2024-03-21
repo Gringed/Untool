@@ -59,7 +59,11 @@ export async function deleteUser(userId: string) {
 }
 
 // USE CREDITS
-export async function updateCredits(userId: string, creditFee: number) {
+export async function updateCredits(
+  userId: string,
+  creditFee: number,
+  plan?: string
+) {
   try {
     const findUser = await prisma.user.findUnique({
       where: {
@@ -69,34 +73,16 @@ export async function updateCredits(userId: string, creditFee: number) {
     if (findUser) {
       const updatedUserCredits = await prisma.user.update({
         where: { id: userId },
-        data: { creditBalance: { increment: creditFee } },
-        select: { id: true, creditBalance: true },
+        data: {
+          creditBalance: { increment: creditFee },
+          plan: plan,
+        },
+        select: { id: true, creditBalance: true, plan: true },
       });
 
       if (!updatedUserCredits) throw new Error("User credits update failed");
 
       return JSON.parse(JSON.stringify(updatedUserCredits));
-    }
-  } catch (error) {
-    handleError(error);
-  }
-}
-export async function updateUser(userId: string, planId: number) {
-  try {
-    const findUser = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (findUser) {
-      const updatedUser = await prisma.user.update({
-        where: { id: userId },
-        data: { planId: 2 },
-      });
-
-      if (!updatedUser) throw new Error("User update failed");
-
-      return JSON.parse(JSON.stringify(updatedUser));
     }
   } catch (error) {
     handleError(error);
