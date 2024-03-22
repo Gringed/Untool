@@ -52,7 +52,7 @@ const Sidebar = ({ session, user }: any) => {
           <ThemeToggle />
           <LogoutButton />
         </div>
-        <nav className="sidebar-nav">
+        <nav className="sidebar-nav overflow-y-auto">
           <ul className="sidebar-nav_elements">
             {navLinks.slice(0, 7).map((link) => {
               const isActive = link.route === pathname;
@@ -66,8 +66,15 @@ const Sidebar = ({ session, user }: any) => {
                   }`}
                 >
                   {!link.plan?.includes(user.plan) && link?.plan && (
-                    <div className="absolute -end-5 top-0">
-                      <span className="inline-flex items-center opacity-100 rounded-md bg-secondary px-2 py-1 text-xxs  leading-none text-white ring-1 ring-inset ring-secondary">
+                    <div className="absolute invisible opacity-0 transition-all group-hover:visible group-hover:opacity-100 ">
+                      <span className="inline-flex items-center opacity-100 rounded-lg text-sm px-2 py-1 text-primary ">
+                        <Image
+                          src={"https://www.svgrepo.com/show/413740/wait.svg"}
+                          width={24}
+                          height={24}
+                          alt="Premium"
+                          className="animate-spin mr-2"
+                        />
                         Coming soon
                       </span>
                     </div>
@@ -82,7 +89,7 @@ const Sidebar = ({ session, user }: any) => {
                     className={`${
                       !link.plan?.includes(user.plan) &&
                       link?.plan &&
-                      "pointer-events-none opacity-20"
+                      "opacity-20 hover:blur"
                     } sidebar-link  transition-all rounded-xl hover:shadow`}
                     href={link.route}
                   >

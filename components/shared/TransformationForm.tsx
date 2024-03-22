@@ -160,7 +160,7 @@ const TransformationForm = ({
               await updateCredits(userId, creditFee);
             });
             toast({
-              title: "Image uploaded successfully",
+              title: "Image transformation successfully",
               description: "1 credit was deducted from your account",
               duration: 5000,
               className: "success-toast",
@@ -255,7 +255,7 @@ const TransformationForm = ({
         await updateCredits(userId, creditFee);
       });
       toast({
-        title: "Image uploaded successfully",
+        title: "Image transformation successfully",
         description: "1 credit was deducted from your account",
         duration: 5000,
         className: "success-toast",

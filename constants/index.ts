@@ -31,7 +31,7 @@ export const navLinks = [
   },
   {
     label: "Object Replace",
-    route: "/transformations/add/replace",
+    route: "#",
     icon: "https://www.svgrepo.com/show/413651/copy.svg",
     plan: ["Pro Package", "Premium Package"],
   },
