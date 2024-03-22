@@ -15,7 +15,7 @@ const alternate = Montserrat_Alternates({
   subsets: ["latin"],
   weight: ["100", "200", "700", "800", "600"],
 });
-const Sidebar = ({ session }: any) => {
+const Sidebar = ({ session, user }: any) => {
   const { theme } = useTheme();
   const pathname = usePathname();
   if (!session) {
@@ -54,28 +54,39 @@ const Sidebar = ({ session }: any) => {
         </div>
         <nav className="sidebar-nav">
           <ul className="sidebar-nav_elements">
-            {navLinks.slice(0, 6).map((link) => {
+            {navLinks.slice(0, 7).map((link) => {
               const isActive = link.route === pathname;
               return (
                 <li
                   key={link.route}
-                  className={`flex-center p-16-semibold items-center w-full  border  rounded-xl  group transition-all   shadow  ${
+                  className={`flex-center p-16-semibold items-center relative w-full  border  rounded-xl  group transition-all   shadow  ${
                     isActive
                       ? "border-b-8 border-r-8 border-2  border-secondary"
                       : " text-primary border-primary/10"
                   }`}
                 >
+                  {!link.plan?.includes(user.plan) && link?.plan && (
+                    <div className="absolute -end-5 top-0">
+                      <span className="inline-flex items-center opacity-100 rounded-md bg-secondary px-2 py-1 text-xxs  leading-none text-white ring-1 ring-inset ring-secondary">
+                        Coming soon
+                      </span>
+                    </div>
+                  )}
                   <Link
-                    className="sidebar-link  transition-all rounded-xl hover:shadow"
+                    aria-disabled={link.plan && !link.plan?.includes(user.plan)}
+                    tabIndex={
+                      link.plan && !link.plan?.includes(user.plan)
+                        ? -1
+                        : undefined
+                    }
+                    className={`${
+                      !link.plan?.includes(user.plan) &&
+                      link?.plan &&
+                      "pointer-events-none opacity-20"
+                    } sidebar-link  transition-all rounded-xl hover:shadow`}
                     href={link.route}
                   >
-                    <Image
-                      src={link.icon}
-                      alt="logo"
-                      width={24}
-                      height={24}
-                      //className={`${isActive && "brightness-200"}`}
-                    />
+                    <Image src={link.icon} alt="logo" width={24} height={24} />
                     {link.label}
                   </Link>
                 </li>
@@ -83,7 +94,7 @@ const Sidebar = ({ session }: any) => {
             })}
           </ul>
           <ul className="sidebar-nav_elements">
-            {navLinks.slice(6).map((link) => {
+            {navLinks.slice(7).map((link) => {
               const isActive = link.route === pathname;
               return (
                 <li

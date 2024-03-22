@@ -35,12 +35,12 @@ const Home = async ({ searchParams }: SearchParamProps) => {
       </section>
       <Carousel className=" -mt-4 sm:-mt-12 flex mx-4 justify-center">
         <CarouselContent className="flex ">
-          {navLinks.slice(1, 6).map((link) => (
+          {navLinks.slice(1, 7).map((link) => (
             <CarouselItem
               key={link.route}
               className="w-full justify-center flex sm:basis-1/3 lg:basis-1/4 xl:basis-1/5"
             >
-              <Card className="hover:bg-transparent transition-all bg-background">
+              <Card className="hover:bg-background/60 transition-all bg-background">
                 <Link
                   key={link.route}
                   href={link.route}

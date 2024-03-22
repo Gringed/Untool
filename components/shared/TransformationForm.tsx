@@ -51,7 +51,7 @@ export const formSchema = z.object({
   prompt: z.string().optional(),
   publicId: z.string().optional(),
   multiple: z.boolean().optional(),
-  shadows: z.boolean().optional(),
+  removeShadow: z.boolean().optional(),
 });
 const TransformationForm = ({
   action,
@@ -85,6 +85,8 @@ const TransformationForm = ({
           color: data?.color,
           prompt: data?.prompt,
           publicId: data?.publicId,
+          multiple: data?.multiple,
+          removeShadow: data?.removeShadow,
         }
       : defaultValues;
 
@@ -115,6 +117,8 @@ const TransformationForm = ({
         aspectRatio: values.aspectRatio,
         prompt: values.prompt,
         color: values.color,
+        multiple: values.multiple,
+        removeShadow: values.removeShadow,
       };
 
       if (action === "Add") {
@@ -196,9 +200,7 @@ const TransformationForm = ({
     fieldName: string,
     value: string,
     type: string,
-    onChangeField: (value: string) => void,
-    multiple?: boolean | CheckedState,
-    removeShadow?: boolean | CheckedState
+    onChangeField: (value: string) => void
   ) => {
     debounce(() => {
       setNewTransformation((prevState: any) => ({
@@ -206,16 +208,41 @@ const TransformationForm = ({
         [type]: {
           ...prevState?.[type],
           [fieldName === "prompt" ? "prompt" : "to"]: value,
-          multiple,
-          removeShadow,
         },
       }));
     }, 1000)();
 
     return onChangeField(value);
   };
+  const onInputCheked = (multiple: boolean | CheckedState) => {
+    debounce(() => {
+      setNewTransformation((prevState: any) => ({
+        ...prevState,
+        [type]: {
+          ...prevState?.[type],
+          multiple,
+        },
+      }));
+    }, 1000)();
+
+    return multiple;
+  };
+  const onShadowsInput = (removeShadow: boolean | CheckedState) => {
+    debounce(() => {
+      setNewTransformation((prevState: any) => ({
+        ...prevState,
+        [type]: {
+          ...prevState?.[type],
+          removeShadow,
+        },
+      }));
+    }, 1000)();
+
+    return removeShadow;
+  };
 
   const onTransformHandler = async () => {
+    console.log(newTransformation);
     setIsTransforming(true);
 
     setTransformationConfig(
@@ -312,9 +339,7 @@ const TransformationForm = ({
                           "prompt",
                           e.target.value,
                           type,
-                          field.onChange,
-                          isMultiple,
-                          isRemoveshadows
+                          field.onChange
                         )
                       }
                     />
@@ -338,8 +363,7 @@ const TransformationForm = ({
                             "color",
                             e.target.value,
                             "recolor",
-                            field.onChange,
-                            isMultiple
+                            field.onChange
                           )
                         }
                       />
@@ -354,12 +378,12 @@ const TransformationForm = ({
                 name="multiple"
                 formLabel="Multiple items"
                 className="w-full"
-                render={() => (
+                render={({ field }) => (
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
                     <FormControl>
                       <Checkbox
-                        checked={isMultiple}
-                        onCheckedChange={(cheked) => setIsMultiple(cheked)}
+                        defaultChecked={field.value}
+                        onCheckedChange={(checked) => onInputCheked(checked)}
                       />
                     </FormControl>
                     <div className="space-y-1 leading-none">
@@ -374,17 +398,15 @@ const TransformationForm = ({
               {type === "remove" && (
                 <CustomField
                   control={form.control}
-                  name="shadows"
+                  name="removeShadow"
                   formLabel="Remove shadows"
                   className="w-full"
-                  render={() => (
+                  render={({ field }) => (
                     <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
                       <FormControl>
                         <Checkbox
-                          checked={isRemoveshadows}
-                          onCheckedChange={(checked) =>
-                            setIsRemoveShadows(checked)
-                          }
+                          checked={field.checked}
+                          onCheckedChange={(checked) => onShadowsInput(checked)}
                         />
                       </FormControl>
                       <div className="space-y-1 leading-none">
@@ -452,12 +474,27 @@ const TransformationForm = ({
               {isTransforming ? "Transforming..." : "Apply Transformation"}
             </Button>
           )}
+          {action === "Update" && type !== "fill" && (
+            <Button
+              type="button"
+              className="submit-button capitalize"
+              disabled={
+                isTransforming ||
+                newTransformation === null ||
+                !form.getValues().title ||
+                (type === "remove" && !form.getValues().prompt) ||
+                !image?.publicId ||
+                creditBalance <= 0
+              }
+              onClick={onTransformHandler}
+            >
+              {isTransforming ? "Transforming..." : "Apply Transformation"}
+            </Button>
+          )}
           <Button
             type="submit"
             className="submit-button capitalize"
-            disabled={
-              isSubmitting || creditBalance <= 0 || newTransformation === null
-            }
+            disabled={isSubmitting || creditBalance <= 0}
           >
             {isSubmitting ? "Submitting..." : "Save Image"}
           </Button>

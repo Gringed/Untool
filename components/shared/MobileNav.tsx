@@ -16,7 +16,7 @@ const alternate = Montserrat_Alternates({
   subsets: ["latin"],
   weight: ["100", "200", "700", "800", "600"],
 });
-const MobileNav = ({ session }: any) => {
+const MobileNav = ({ session, user }: any) => {
   const pathname = usePathname();
   const { theme } = useTheme();
   return (
@@ -97,12 +97,31 @@ const MobileNav = ({ session }: any) => {
                     <li
                       className={`${
                         isActive &&
-                        "text-secondary font-bold border-b-secondary border-b"
-                      } p-18 flex w-full  text-dark-700`}
+                        "text-secondary font-bold border-b-secondary  border-b"
+                      } p-18 flex w-full relative  text-dark-700`}
                       key={link.route}
                     >
+                      {!link.plan?.includes(user.plan) && link?.plan && (
+                        <div className="absolute -end-5 top-0">
+                          <span className="inline-flex items-center opacity-100 rounded-md bg-secondary px-2 py-1 text-xxs  leading-none text-white ring-1 ring-inset ring-secondary">
+                            Coming soon
+                          </span>
+                        </div>
+                      )}
                       <Link
-                        className="sidebar-link cursor-pointer"
+                        aria-disabled={
+                          link.plan && !link.plan?.includes(user.plan)
+                        }
+                        tabIndex={
+                          link.plan && !link.plan?.includes(user.plan)
+                            ? -1
+                            : undefined
+                        }
+                        className={`${
+                          !link.plan?.includes(user.plan) &&
+                          link?.plan &&
+                          "pointer-events-none opacity-20"
+                        } sidebar-link cursor-pointer`}
                         href={link.route}
                       >
                         <Image

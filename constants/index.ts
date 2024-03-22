@@ -30,6 +30,12 @@ export const navLinks = [
     icon: "https://www.svgrepo.com/show/413664/erase.svg",
   },
   {
+    label: "Object Replace",
+    route: "/transformations/add/replace",
+    icon: "https://www.svgrepo.com/show/413651/copy.svg",
+    plan: ["Pro Package", "Premium Package"],
+  },
+  {
     label: "Buy Credits",
     route: "/credits",
     icon: "/assets/icons/coins.svg",

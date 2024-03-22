@@ -84,6 +84,8 @@ model Image {
   aspectRatio        String?
   color              String?
   prompt             String?
+  multiple           Boolean?
+  removeShadow       Boolean?
   author             User     @relation(fields: [authorId], references: [id])
   authorId           String
   createdAt          DateTime @default(now())
