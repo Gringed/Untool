@@ -20,7 +20,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
   const user = await getUserById(session.user.id);
 
   const image = await getImageById(id);
-
+  console.log(image);
   return (
     <>
       <Header title={image.title} />
@@ -39,6 +39,32 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
             <div className="p-14-medium md:p-16-medium flex gap-2 ">
               <p className="text-primary">Prompt:</p>
               <p className=" capitalize text-purple-400">{image.prompt}</p>
+            </div>
+          </>
+        )}
+        {image.config?.[image.transformationType]?.multiple && (
+          <>
+            <p className="hidden text-dark-400/50 md:block">&#x25CF;</p>
+            <div className="p-14-medium md:p-16-medium flex gap-2 ">
+              <p className="text-primary">Multiple:</p>
+              <p className=" capitalize text-purple-400">
+                {image.config?.[image.transformationType]?.multiple
+                  ? "Yes"
+                  : "No"}
+              </p>
+            </div>
+          </>
+        )}
+        {image.config?.[image.transformationType]?.removeShadow && (
+          <>
+            <p className="hidden text-dark-400/50 md:block">&#x25CF;</p>
+            <div className="p-14-medium md:p-16-medium flex gap-2 ">
+              <p className="text-primary">Remove shadows:</p>
+              <p className=" capitalize text-purple-400">
+                {image.config?.[image.transformationType]?.removeShadow
+                  ? "Yes"
+                  : "No"}
+              </p>
             </div>
           </>
         )}

@@ -86,7 +86,7 @@ const TransformationForm = ({
           prompt: data?.prompt,
           publicId: data?.publicId,
           multiple: data?.multiple,
-          removeShadow: data?.removeShadow,
+          removeShadow: data?.config?.[type]?.removeshadow,
         }
       : defaultValues;
 
@@ -237,6 +237,7 @@ const TransformationForm = ({
         },
       }));
     }, 1000)();
+    console.log(newTransformation);
 
     return removeShadow;
   };
@@ -382,7 +383,7 @@ const TransformationForm = ({
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
                     <FormControl>
                       <Checkbox
-                        defaultChecked={field.value}
+                        defaultChecked={config?.[type]?.multiple}
                         onCheckedChange={(checked) => onInputCheked(checked)}
                       />
                     </FormControl>
@@ -405,7 +406,7 @@ const TransformationForm = ({
                     <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
                       <FormControl>
                         <Checkbox
-                          checked={field.checked}
+                          defaultChecked={config?.[type]?.removeShadow}
                           onCheckedChange={(checked) => onShadowsInput(checked)}
                         />
                       </FormControl>

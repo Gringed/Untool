@@ -62,7 +62,7 @@ declare type Transformations = {
   fillBackground?: boolean;
   remove?: {
     prompt: string;
-    removeShadow?: boolean;
+    removeShadow: boolean;
     multiple: boolean;
   };
   recolor?: {
