@@ -77,7 +77,7 @@ const Credits = async () => {
                 ))}
               </ul>
 
-              {plan.name === "FREE" ? (
+              {plan.planId === "FREE" ? (
                 <Button variant="outline" disabled className="credits-btn">
                   Free Consumable
                 </Button>
@@ -87,7 +87,7 @@ const Credits = async () => {
                   amount={plan.price}
                   credits={plan.credits}
                   buyerId={user.id}
-                  current={user.planId}
+                  current={user.plan}
                 />
               )}
             </li>

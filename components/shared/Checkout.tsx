@@ -21,7 +21,7 @@ const Checkout = ({
   amount: number;
   credits: number;
   buyerId: string;
-  current: number;
+  current: string;
 }) => {
   const { toast } = useToast();
 
@@ -62,7 +62,7 @@ const Checkout = ({
 
     await checkoutCredits(transaction);
   };
-
+  console.log(current);
   return (
     <form onSubmit={onCheckout}>
       <section>

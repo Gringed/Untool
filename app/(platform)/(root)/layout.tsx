@@ -6,6 +6,7 @@ import Sidebar from "@/components/shared/Sidebar";
 import MobileNav from "@/components/shared/MobileNav";
 import { Toaster } from "@/components/ui/toaster";
 import { getUserById } from "@/lib/actions/users/user.actions";
+import CrispChat from "@/components/shared/Crisp";
 
 const PlatformLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getServerSession(authConfig);
@@ -15,6 +16,9 @@ const PlatformLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await getUserById(session?.user.id);
   return (
     <main className="root">
+      {(user.plan === "PREMIUM" ||
+        user.plan === "PRO" ||
+        user.plan === "PLUS") && <CrispChat user={user} />}
       <Sidebar session={session} user={user} />
       <MobileNav session={session} user={user} />
       <div className="root-container bg-background">

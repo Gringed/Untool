@@ -197,4 +197,4 @@ export const defaultValues = {
 };
 
 export const creditFee = -1;
-export const aplanId = 456214;
+export const aplanId = "PLUS";

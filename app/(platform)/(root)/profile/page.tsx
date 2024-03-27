@@ -2,10 +2,8 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import Header from "@/components/shared/Header";
-
-import dynamic from "next/dynamic";
 import { getAuthSession } from "@/lib/auth";
-import { getAllImages, getUserImages } from "@/lib/actions/image/image.actions";
+import { getUserImages } from "@/lib/actions/image/image.actions";
 import { getUserById } from "@/lib/actions/users/user.actions";
 import Collection from "@/components/shared/Collection";
 
@@ -19,15 +17,11 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
 
   const user = await getUserById(session.user?.id);
   const images = await getUserImages({ page, userId: user.id });
-  const CrispWithNoSSR = dynamic(
-    () => import("../../../../components/shared/Crisp")
-  );
+
   return (
     <>
       <Header title="Profile" />
-      {(user.plan === "PREMIUM" ||
-        user.plan === "PRO" ||
-        user.plan === "PLUS") && <CrispWithNoSSR user={user} />}
+
       <section className="profile">
         <div className="profile-balance">
           <p className="p-14-medium md:p-16-medium uppercase">
