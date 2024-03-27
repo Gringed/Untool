@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/react";
+
 const montserrat = Montserrat({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
@@ -14,7 +15,6 @@ export const metadata: Metadata = {
   title: "Untool",
   description: "AI powered Redesign and text everything in one",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
