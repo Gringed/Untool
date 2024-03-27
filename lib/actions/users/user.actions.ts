@@ -63,7 +63,7 @@ export async function deleteUser(userId: string) {
 export async function updateCredits(
   userId: string,
   creditFee: number,
-  plan: Plan
+  plan?: Plan
 ) {
   try {
     const findUser = await prisma.user.findUnique({
