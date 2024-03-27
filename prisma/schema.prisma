@@ -62,13 +62,19 @@ model User {
   photo         String?
   firstName     String?
   lastName      String?
-  planId        Int
-  plan          String        @default("Free")
+  plan          Plan          @default(FREE)
   creditBalance Int           @default(10)
   accounts      Account[]
   sessions      Session[]
   images        Image[]
   transactions  Transaction[]
+}
+
+enum Plan {
+  FREE
+  PRO
+  PREMIUM
+  PLUS
 }
 
 model Image {

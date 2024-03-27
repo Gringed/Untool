@@ -8,8 +8,6 @@ declare type CreateUserParams = {
   firstName: string;
   lastName: string;
   photo: string;
-  planId: number;
-  plan: string;
 };
 
 declare type UpdateUserParams = {
@@ -17,7 +15,6 @@ declare type UpdateUserParams = {
   lastName: string | null;
   username: string | null;
   photo: string | null;
-  planId: number;
 };
 
 // ====== IMAGE PARAMS

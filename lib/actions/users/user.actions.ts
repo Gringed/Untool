@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { handleError } from "../../utils";
 import prisma from "@/lib/prisma";
+import { Plan } from "@prisma/client";
 // CREATE
 export async function createUser(user: CreateUserParams) {
   try {
@@ -62,7 +63,7 @@ export async function deleteUser(userId: string) {
 export async function updateCredits(
   userId: string,
   creditFee: number,
-  plan?: string
+  plan: Plan
 ) {
   try {
     const findUser = await prisma.user.findUnique({

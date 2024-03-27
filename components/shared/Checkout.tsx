@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Button } from "../ui/button";
 import { checkoutCredits } from "@/lib/actions/transformation/transformation.action";
 import { aplanId } from "@/constants";
+import { Plan } from "@prisma/client";
 
 const Checkout = ({
   plan,
@@ -16,7 +17,7 @@ const Checkout = ({
   buyerId,
   current,
 }: {
-  plan: string;
+  plan: Plan;
   amount: number;
   credits: number;
   buyerId: string;
