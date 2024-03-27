@@ -17,6 +17,7 @@ const alternate = Montserrat_Alternates({
   weight: ["100", "200", "700", "800", "600"],
 });
 const Signin: React.FC<SigninProps> = ({ csrfToken, providers }) => {
+  console.log(providers);
   return (
     <div className="h-screen bg-wallpaper bg-wallpaperPosition">
       <div className="background">

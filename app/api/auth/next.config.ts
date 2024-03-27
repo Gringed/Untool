@@ -11,8 +11,8 @@ export const authConfig = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
-  pages: {
-    signIn: "/auth/signin",
+  theme: {
+    logo: "/assets/images/logo-light.svg",
   },
   secret: process.env.SECRET,
   adapter: PrismaAdapter(prisma),
