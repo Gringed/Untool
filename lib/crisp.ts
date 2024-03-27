@@ -8,7 +8,7 @@ declare global {
 const CrispChatScript = () => {
   useEffect(() => {
     window.$crisp = [];
-    window.CRISP_WEBSITE_ID = "fb1508f2-4569-4bb3-874d-7f9d8f111760";
+    window.CRISP_WEBSITE_ID = process.env.CRISP_CLIENT_ID!!;
     (function () {
       const d = document;
       const s = d.createElement("script");
