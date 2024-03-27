@@ -1,3 +1,5 @@
+import { Plan } from "@prisma/client";
+
 export const navLinks = [
   {
     label: "Home",
@@ -45,6 +47,7 @@ export const navLinks = [
 export const plans = [
   {
     _id: 1,
+    planId: "FREE" as Plan,
     name: "Free",
     icon: "/assets/icons/free-plan.svg",
     price: 0,
@@ -70,6 +73,7 @@ export const plans = [
   },
   {
     _id: 2,
+    planId: "PRO" as Plan,
     name: "Pro Package",
     icon: "/assets/icons/pro-plan.svg",
     price: 7,
@@ -95,6 +99,7 @@ export const plans = [
   },
   {
     _id: 3,
+    planId: "PREMIUM" as Plan,
     name: "Premium Package",
     icon: "/assets/icons/premium_plan.svg",
     price: 40,

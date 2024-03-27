@@ -77,13 +77,13 @@ const Credits = async () => {
                 ))}
               </ul>
 
-              {plan.name === "Free" ? (
+              {plan.name === "FREE" ? (
                 <Button variant="outline" disabled className="credits-btn">
                   Free Consumable
                 </Button>
               ) : (
                 <Checkout
-                  plan={plan.name}
+                  plan={plan.planId}
                   amount={plan.price}
                   credits={plan.credits}
                   buyerId={user.id}
