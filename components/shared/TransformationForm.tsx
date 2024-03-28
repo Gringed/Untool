@@ -155,7 +155,7 @@ const TransformationForm = ({
           if (updatedImage) {
             router.push(`/transformations/${updatedImage.id}`);
           }
-          if (user.planId !== aplanId && type === "fill") {
+          if (user.plan !== aplanId && type === "fill") {
             startTransition(async () => {
               await updateCredits(userId, creditFee);
             });
@@ -251,7 +251,7 @@ const TransformationForm = ({
     );
 
     setNewTransformation(null);
-    if (user?.planId !== aplanId) {
+    if (user?.plan !== aplanId) {
       startTransition(async () => {
         await updateCredits(userId, creditFee);
       });

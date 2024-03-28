@@ -11,18 +11,15 @@ const alternate = Montserrat_Alternates({
 const Tilt = () => {
   return (
     <ReactParallaxTilt
-      glareEnable={true}
-      glareMaxOpacity={0.5}
-      glareColor="#8660b0"
       glarePosition="bottom"
       glareBorderRadius="15px"
-      perspective={650}
-      className="p-20 bg-background/20 parallax-effect shadow-xl"
+      perspective={700}
+      className="p-20  parallax-effect card-header"
     >
       <div className="flex items-center inner-element justify-center flex-col">
         <h1
           className={cn(
-            "text-3xl md:text-6xl  flex flex-col gap-4 tracking-tighter font-bold text-center",
+            "text-3xl md:text-6xl flex flex-col gap-4 tracking-tighter font-bold text-center",
             alternate.className
           )}
         >

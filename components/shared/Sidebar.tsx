@@ -39,12 +39,10 @@ const Sidebar = ({ session, user }: any) => {
               alt=""
               width={55}
               height={55}
-              src={`/assets/images/${
-                theme === "dark" ? "logo-dark.svg" : "logo-light.svg"
-              }`}
+              src={`assets/images/logo-light.svg`}
             />
-            <h1 className="text-2xl hidden md:block -ms-2 font-extrabold tracking-tighter ">
-              ntool
+            <h1 className="text-2xl hidden -ms-9 mt-1 md:flex font-extrabold tracking-tighter ">
+              <span className="-ms-[1px] me-3">U</span>ntool
             </h1>
           </div>
         </Link>
