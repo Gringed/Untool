@@ -12,6 +12,7 @@ import { Montserrat_Alternates } from "next/font/google";
 import { useTheme } from "next-themes";
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { ThemeToggle } from "../ThemeToggle";
 const alternate = Montserrat_Alternates({
   subsets: ["latin"],
   weight: ["100", "200", "700", "800", "600"],
@@ -33,19 +34,20 @@ const MobileNav = ({ session, user }: any) => {
         >
           <Image
             alt=""
-            width={45}
-            height={45}
-            src={`/assets/images/${
-              theme === "dark" ? "logo-dark.svg" : "logo-light.svg"
-            }`}
+            width={55}
+            height={55}
+            src={`assets/images/logo-light.svg`}
           />
-          <h1 className="text-2xl hidden md:block -ms-2 font-extrabold tracking-tighter ">
-            ntool
+          <h1 className="text-2xl hidden -ms-9 mt-1 md:flex font-extrabold tracking-tighter ">
+            <span className="-ms-[1px] me-3">U</span>ntool
           </h1>
         </div>
       </Link>
 
-      <nav className="flex gap-4">
+      <nav className="flex items-center gap-4">
+        <div>
+          <ThemeToggle />
+        </div>
         <Link
           className=" rounded-full transition-all  hover:shadow"
           href={"/profile"}
@@ -80,12 +82,10 @@ const MobileNav = ({ session, user }: any) => {
                   alt=""
                   width={55}
                   height={55}
-                  src={`/assets/images/${
-                    theme === "dark" ? "logo-dark.svg" : "logo-light.svg"
-                  }`}
+                  src={`assets/images/logo-light.svg`}
                 />
-                <h1 className="text-2xl hidden md:block -ms-2 font-extrabold tracking-tighter ">
-                  ntool
+                <h1 className="text-2xl hidden -ms-9 mt-1 md:flex font-extrabold tracking-tighter ">
+                  <span className="-ms-[1px] me-3">U</span>ntool
                 </h1>
               </div>
 

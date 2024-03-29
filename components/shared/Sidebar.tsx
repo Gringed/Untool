@@ -134,7 +134,7 @@ const Sidebar = ({ session, user }: any) => {
               }`}
             >
               <Link
-                className="sidebar-link  transition-all rounded-l-xl hover:shadow"
+                className="sidebar-link text-wrap transition-all rounded-l-xl hover:shadow"
                 href={"/profile"}
               >
                 <Image
@@ -146,18 +146,6 @@ const Sidebar = ({ session, user }: any) => {
                 />
                 {session.user.name}
               </Link>
-              <button
-                onClick={async () => {
-                  await signOut();
-                }}
-                className={`font-extrabold  hover:scale-90 duration-200 transition text-white justify-center px-3 bg-secondary h-full flex items-center  border-primary ${
-                  profileActive
-                    ? "border border-secondary rounded-r"
-                    : "rounded-r-lg shadow"
-                }`}
-              >
-                <LogOut size={20} className="" />
-              </button>
             </li>
           </ul>
         </nav>

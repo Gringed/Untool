@@ -22,14 +22,20 @@ export async function checkoutCredits(transaction: CheckoutTransactionParams) {
           currency: "eur",
           unit_amount: amount,
           product_data: {
-            name: transaction.plan,
+            name:
+              transaction.plan[0].toUpperCase() +
+              transaction.plan.slice(1).toLowerCase() +
+              " Package",
           },
         },
         quantity: 1,
       },
     ],
     metadata: {
-      plan: transaction.plan,
+      plan:
+        transaction.plan[0].toUpperCase() +
+        transaction.plan.slice(1).toLowerCase() +
+        " Package",
       credits: transaction.credits,
       buyerId: transaction.buyerId,
     },
@@ -65,7 +71,7 @@ export async function createTransaction(transaction: CreateTransactionParams) {
         transaction.credits,
         transaction.plan as Plan
       );
-      console.log(newTransaction);
+
       return JSON.parse(JSON.stringify(newTransaction));
     } else {
       throw new Error("User not found");

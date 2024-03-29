@@ -19,7 +19,7 @@ const TransformedImage = ({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    console.log(image);
+
     download(
       getCldImageUrl({
         width: image?.width,

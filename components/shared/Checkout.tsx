@@ -62,7 +62,7 @@ const Checkout = ({
 
     await checkoutCredits(transaction);
   };
-  console.log(current);
+
   return (
     <form onSubmit={onCheckout}>
       <section>

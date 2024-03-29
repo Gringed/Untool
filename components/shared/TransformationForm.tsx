@@ -237,13 +237,11 @@ const TransformationForm = ({
         },
       }));
     }, 1000)();
-    console.log(newTransformation);
 
     return removeShadow;
   };
 
   const onTransformHandler = async () => {
-    console.log(newTransformation);
     setIsTransforming(true);
 
     setTransformationConfig(

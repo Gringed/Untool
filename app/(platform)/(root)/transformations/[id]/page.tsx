@@ -20,7 +20,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
   const user = await getUserById(session.user.id);
 
   const image = await getImageById(id);
-  console.log(image);
+
   return (
     <>
       <Header title={image.title} />

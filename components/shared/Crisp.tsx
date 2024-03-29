@@ -8,7 +8,7 @@ const CrispChat = ({ user }: any) => {
       console.error("NEXT_PUBLIC_CRISP_WEBSITE_ID is not set."); // Vérifiez que NEXT_PUBLIC_CRISP_WEBSITE_ID est défini
       return;
     }
-    console.log(user);
+
     Crisp.configure(process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID, {
       autoload: false,
     }); // Configure Crisp avec l'identifiant du site
