@@ -21,13 +21,13 @@ const MarketingLayout = ({ children }: { children: React.ReactNode }) => {
         <span></span>
         <span></span>
       </div>
-      <div className=" z-50 relative">
+      <div className="  relative">
         <Navbar />
         <main className=" h-screen flex justify-center items-center flex-col self-center">
           {children}
         </main>
         <div className="border-t-8 border-secondary">
-          <div className="mx-auto px-4 md:max-w-screen-2xl gap-16 sm:gap-y-24 flex flex-col">
+          <div className="mx-auto px-4 mt-10 md:max-w-screen-2xl gap-16 sm:gap-y-24 flex flex-col">
             <Features />
           </div>
         </div>

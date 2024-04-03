@@ -15,7 +15,7 @@ const alternate = Montserrat_Alternates({
 const Navbar = () => {
   const { theme } = useTheme();
   return (
-    <div className="fixed top-0 flex items-center w-full h-16 px-4 shadow-lg border-b-2 bg-background/80 backdrop-blur-sm">
+    <div className="fixed top-0 flex z-50 items-center w-full h-16 px-4 shadow-lg border-b-2 bg-background/80 backdrop-blur-sm">
       <div className="md:max-w-screen-2xl mx-auto justify-between w-full flex items-center">
         <Link
           href={"/"}
